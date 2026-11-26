@@ -1,7 +1,7 @@
-# Skill: Root-Cause Debugging (v1 - Anti-Regression & Circuit Breaker)
+# Skill: Root-Cause Debugging (v1.1 - Anti-Regression & Circuit Breaker)
 
 ## 0. Objective & Scope
-The sole purpose of this skill is to **completely prevent Shotgun Debugging (blindly editing code and breaking working features) and Symptom Masking** when resolving build errors, runtime exceptions, or bugs.
+The sole purpose of this skill is to **completely prevent Shotgun Debugging (blindly editing code and breaking working features), repeating failed approaches, and Symptom Masking** when resolving build errors, runtime exceptions, or bugs.
 
 - **Mandatory:** Fixing build/compile errors, runtime crashes/exceptions, failing tests, or behavioral bugs.
 - **Skip Allowed:** Implementing new features with no active errors, or trivial typo/formatting fixes.
@@ -28,22 +28,24 @@ Immediately before editing any code, output the exact `[DIAGNOSIS]` block below:
 ```text
 [DIAGNOSIS]
 - Raw Error: (Quote the exact error message and File:Line verbatim)
-- Root-Cause Hypothesis (1 ONLY): (State exactly ONE code-grounded hypothesis explaining why this error occurs)
+- Failed Attempts (Do Not Repeat): (Summary of prior failed edits and why they failed; state "None" on Attempt 1)
+- Root-Cause Hypothesis (1 ONLY): (State exactly ONE new, code-grounded hypothesis fundamentally distinct from Failed Attempts)
 - Minimal Fix Plan: (Exact minimal file and line range to change to test this hypothesis)
 - Attempt Count: (e.g., 1/2)
 ```
 
 ### Step 3. 2-Strike Circuit Breaker
-- **After Attempt 1 Fails:** If the first edit does not resolve the error, you MUST **revert the failed edit completely** before forming a new hypothesis for Attempt 2. (Never stack a second speculative edit on top of a failed one.)
+- **After Attempt 1 Fails:** If the first edit does not resolve the error, you MUST **revert the failed edit completely**, record it under `Failed Attempts`, and form a fundamentally different hypothesis for Attempt 2. (Never stack a second speculative edit on top of a failed one.)
 - **STOP After 2 Consecutive Failures:** If the same error persists after Attempt 2, **STOP EDITING IMMEDIATELY.** Do not attempt a 3rd speculative fix. Summarize both failed hypotheses and the resulting error logs for the user, and wait for direction.
 
 ---
 
 ## 3. Zero-Tolerance Rules
-1. **No Symptom Masking:** Never hide errors using empty `catch` blocks, unjustified null-check early returns, or `@SuppressWarnings` / `#pragma warning(disable)`.
-2. **No Shotgun Debugging:** Test **ONLY ONE hypothesis** per attempt. Never touch unrelated code, refactor, or reformat while fixing a bug.
-3. **No Stacking Failed Edits:** Never leave an ineffective fix in place while modifying other lines; always revert failed changes first.
-4. **No Test/Assertion Bypass:** Never delete, weaken, or comment out failing tests or `assert` statements to force a pass.
+1. **No Repeating Failed Approaches:** Even after reverting, NEVER re-propose an approach identical or functionally equivalent to a previously failed attempt (including minor variations such as tweaking variable names or conditions).
+2. **No Symptom Masking:** Never hide errors using empty `catch` blocks, unjustified null-check early returns, or `@SuppressWarnings` / `#pragma warning(disable)`.
+3. **No Shotgun Debugging:** Test **ONLY ONE hypothesis** per attempt. Never touch unrelated code, refactor, or reformat while fixing a bug.
+4. **No Stacking Failed Edits:** Never leave an ineffective fix in place while modifying other lines; always revert failed changes first.
+5. **No Test/Assertion Bypass:** Never delete, weaken, or comment out failing tests or `assert` statements to force a pass.
 
 ---
 
@@ -58,6 +60,7 @@ Immediately before editing any code, output the exact `[DIAGNOSIS]` block below:
 > ```text
 > [DIAGNOSIS]
 > - Raw Error: Access violation reading location 0x00000000 at Module.cpp:L142
+> - Failed Attempts (Do Not Repeat): None
 > - Root-Cause Hypothesis (1 ONLY): In Module.cpp:L88 (onDisable), the target pointer is freed, but the event listener is never unregistered, causing onTick() at L142 to dereference the freed pointer on the next frame.
 > - Minimal Fix Plan: Add 1 line to unregister the event listener inside Module.cpp:L88 (onDisable).
 > - Attempt Count: 1/2
