@@ -9,7 +9,7 @@
 
 코드를 병합·수정·포팅할 때 AI가 **소스코드를 직접 확인하지 않고 파일명이나 함수명만 보고 추측(환각)하여 코드를 작성하는 현상을 원천 차단**하는 규칙입니다.
 
-* **한글 버전:** [`strict-source-verification.md`](./strict-source-verification-kr.md)
+* **한글 버전:** [`strict-source-verification.md`](./strict-source-verification.md)
 * **영문 버전:** [`strict-source-verification-eng.md`](./strict-source-verification-eng.md) *(LLM 지시 준수율 최적화)*
 
 ### 주요 방지 및 강제 기능
@@ -25,7 +25,7 @@
 
 에러나 버그를 수정할 때 AI가 **근본 원인을 파악하지 못한 채 코드를 마구 고치다가 정상 동작하던 기능까지 망가뜨리는 현상(Shotgun Debugging), 실패한 방법의 반복, 에러 은폐 행위를 원천 차단**하는 규칙입니다.
 
-* **한글 버전:** [`root-cause-debugging.md`](./root-cause-debugging-kr.md)
+* **한글 버전:** [`root-cause-debugging.md`](./root-cause-debugging.md)
 * **영문 버전:** [`root-cause-debugging-eng.md`](./root-cause-debugging-eng.md) *(LLM 지시 준수율 최적화)*
 
 ### 주요 방지 및 강제 기능
@@ -34,6 +34,20 @@
 * **2회 실패 차단기 (2-Strike Circuit Breaker):** 같은 에러에 대해 2회 연속 수정 실패 시 즉시 작업을 중단하고, 시도한 가설과 실패 로그를 정리해 사용자에게 보고합니다.
 * **실패 코드 원복(Revert) 강제:** 1회차 수정이 실패하면 이전 수정본을 먼저 원복한 뒤 2회차를 진행하게 하여, 실패한 패치가 덧대어져 코드가 누더기가 되는 현상을 막습니다.
 * **증상 은폐 및 무차별 수정 금지:** 빈 `try-catch`, 근거 없는 `null` 체크 조기 리턴, 경고 무시, 테스트 우회, 에러와 무관한 주변 코드 수정을 차단합니다.
+
+---
+
+## ✅ Verify Before Done (v1)
+
+코드를 수정·구현한 뒤 AI가 **실제 빌드·컴파일·테스트를 실행하지 않고 추측만으로 "완료했습니다"라고 선언하는 행위(허위 완료)를 원천 차단**하는 규칙입니다.
+
+* **한글 버전:** [`verify-before-done.md`](./verify-before-done.md)
+* **영문 버전:** [`verify-before-done-eng.md`](./verify-before-done-eng.md) *(LLM 지시 준수율 최적화)*
+
+### 주요 방지 및 강제 기능
+* **완료 전 강제 검증 (`[DONE-CHECK]`):** 최종 보고 직전, 실제 터미널에서 실행한 명령어, 종료 코드(Exit Code), 핵심 출력 로그 원문, 마지막 수정 이후 실행 여부를 반드시 출력하게 강제합니다.
+* **오래된 로그 재사용 금지:** 검증 통과 후 코드를 단 한 글자라도 다시 수정했다면 이전 통과 로그를 무효 처리하고 반드시 재검증하게 합니다.
+* **컴파일과 런타임 구분 보고:** 빌드만 통과한 상태에서 "기능이 완벽히 작동한다"고 과장하는 것을 막고, 터미널에서 확인할 수 없는 영역(GUI, 인게임 동작, 관리자 권한 작업 등)은 `미검증 범위`로 정직하게 명시하게 합니다.
 
 ---
 
