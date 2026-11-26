@@ -9,7 +9,7 @@
 
 코드를 병합·수정·포팅할 때 AI가 **소스코드를 직접 확인하지 않고 파일명이나 함수명만 보고 추측(환각)하여 코드를 작성하는 현상을 원천 차단**하는 규칙입니다.
 
-* **한글 버전:** [`strict-source-verification.md`](./strict-source-verification.md)
+* **한글 버전:** [`strict-source-verification.md`](./strict-source-verification-kr.md)
 * **영문 버전:** [`strict-source-verification-eng.md`](./strict-source-verification-eng.md) *(LLM 지시 준수율 최적화)*
 
 ### 주요 방지 및 강제 기능
@@ -25,7 +25,7 @@
 
 에러나 버그를 수정할 때 AI가 **근본 원인을 파악하지 못한 채 코드를 마구 고치다가 정상 동작하던 기능까지 망가뜨리는 현상(Shotgun Debugging), 실패한 방법의 반복, 에러 은폐 행위를 원천 차단**하는 규칙입니다.
 
-* **한글 버전:** [`root-cause-debugging.md`](./root-cause-debugging.md)
+* **한글 버전:** [`root-cause-debugging.md`](./root-cause-debugging-kr.md)
 * **영문 버전:** [`root-cause-debugging-eng.md`](./root-cause-debugging-eng.md) *(LLM 지시 준수율 최적화)*
 
 ### 주요 방지 및 강제 기능
@@ -41,7 +41,7 @@
 
 코드를 수정·구현한 뒤 AI가 **실제 빌드·컴파일·테스트를 실행하지 않고 추측만으로 "완료했습니다"라고 선언하는 행위(허위 완료)를 원천 차단**하는 규칙입니다.
 
-* **한글 버전:** [`verify-before-done.md`](./verify-before-done.md)
+* **한글 버전:** [`verify-before-done.md`](./verify-before-done-kr.md)
 * **영문 버전:** [`verify-before-done-eng.md`](./verify-before-done-eng.md) *(LLM 지시 준수율 최적화)*
 
 ### 주요 방지 및 강제 기능
